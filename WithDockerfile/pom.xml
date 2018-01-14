@@ -38,7 +38,7 @@
 							<type>jar</type>
 							<overWrite>true</overWrite>
 							<outputDirectory>${project.build.directory}</outputDirectory>
-							<destFileName>${app.jar.name}</destFileName>
+							<destFileName>app.jar</destFileName>
 						</artifactItem>
 					</artifactItems>
 				</configuration>

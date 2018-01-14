@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.stas</groupId>
+		<artifactId>docker-example-master</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+
+	<groupId>org.stas</groupId>
+	<artifactId>docker-example-with-maven</artifactId>
+	
+	<packaging>jar</packaging>
+	<properties>
+		<app.jar.name>app.jar</app.jar.name>
+	</properties>
+	<build>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>org.stas</groupId>
+							<artifactId>docker-example-app</artifactId>
+							<version>${project.version}</version>
+							<type>jar</type>
+							<overWrite>true</overWrite>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<destFileName>${app.jar.name}</destFileName>
+						</artifactItem>
+					</artifactItems>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<imageName>${project.name}</imageName>
+					<baseImage>openjdk:8-jdk-alpine</baseImage>
+					<entryPoint>["java", "-jar", "/${app.jar.name}"]</entryPoint>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${app.jar.name}</include>
+						</resource>
+					</resources>
+					<!--imageTags>
+						<imageTag>${project.version}</imageTag>
+					</imageTags-->
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

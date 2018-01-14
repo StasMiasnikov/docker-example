@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 clear
 echo "STOPPING ALL CONTAINERS"
 docker stop $(docker ps  -q)

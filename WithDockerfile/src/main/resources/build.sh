@@ -1,3 +1,3 @@
 #!/bin/bash
 cd src/main/resources
-docker build . -t docker-example-with-dockerfile:latest
+docker build --no-cache .  -t docker-example-with-dockerfile:latest

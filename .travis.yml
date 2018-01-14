@@ -1,3 +1,10 @@
+sudo: required
+services:
+  - docker
+  before_install:
+  - echo "Testing Docker Hub credentials"
+  - docker login  -u=stasmias -p=35EVEntually
+  
 language: java
 jdk: oraclejdk8
 install: true
